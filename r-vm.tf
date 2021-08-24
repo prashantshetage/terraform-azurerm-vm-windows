@@ -35,14 +35,14 @@ resource "azurerm_windows_virtual_machine" "vm" {
   admin_password = var.admin_password
   custom_data    = base64encode(local.custom_data_content)
 
-  secret {
+  /* secret {
     key_vault_id = var.key_vault_id
 
     certificate {
       url   = azurerm_key_vault_certificate.winrm_certificate.secret_id
       store = "My"
     }
-  }
+  } */
 
   provision_vm_agent       = true
   enable_automatic_updates = true
@@ -54,17 +54,17 @@ resource "azurerm_windows_virtual_machine" "vm" {
   }
 
   # Unattend config is to enable basic auth in WinRM, required for the provisioner stage.
-  additional_unattend_content {
+  /* additional_unattend_content {
     setting = "FirstLogonCommands"
     content = file(format("%s/files/FirstLogonCommands.xml", path.module))
-  }
+  } */
 
   identity {
     type = "SystemAssigned"
   }
 }
 
-resource "null_resource" "winrm_connection_test" {
+/* resource "null_resource" "winrm_connection_test" {
   count = var.public_ip_sku == null ? 0 : 1
 
   depends_on = [
@@ -96,9 +96,9 @@ resource "null_resource" "winrm_connection_test" {
       "dir",
     ]
   }
-}
+} */
 
-module "vm_os_disk_tagging" {
+/* module "vm_os_disk_tagging" {
   source  = "claranet/tagging/azurerm"
   version = "4.0.0"
 
@@ -107,7 +107,7 @@ module "vm_os_disk_tagging" {
   behavior     = "merge" # Must be "merge" or "overwrite"
 
   tags = merge(local.default_tags, var.extra_tags, var.os_disk_extra_tags)
-}
+} */
 
 
 
