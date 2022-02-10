@@ -17,6 +17,7 @@ resource "azurerm_network_interface" "nic" {
   resource_group_name = var.resource_group_name
 
   enable_accelerated_networking = var.nic_enable_accelerated_networking
+  dns_servers                   = var.dns_servers
 
   ip_configuration {
     name                          = local.ip_configuration_name
