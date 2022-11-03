@@ -30,7 +30,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     disk_size_gb         = lookup(var.storage_os_disk_config, "disk_size_gb", null)
   }
 
-  computer_name  = local.vm_name
+  computer_name  = substr(local.vm_name, 0, 14)
   admin_username = var.admin_username
   admin_password = var.admin_password
   custom_data    = base64encode(local.custom_data_content)
